@@ -5,11 +5,12 @@ const App=()=> {
   const [cart, setCart] = useState([])
   const [showCart, setShowCart] = useState(false)
   const [total, setTotal] = useState(0)
+ 
   useEffect(()=>{
     console.log(cart)
     let t = 0
    for(let i in cart){
-    t = t+ cart[i].price
+      t = t + cart[i].price
    }
    setTotal(t)
   }, [cart])
@@ -46,7 +47,7 @@ const App=()=> {
           <div className="w-full cursor-pointer" onClick={()=>{setShowCart(false)}}>X</div>
             {cart.map((idx, key)=>{
               return (
-                <div className="flex justify-between"><span>{idx?.name}</span><span>{idx?.price}</span></div>
+                <div key={key} className="flex justify-between"><span>{idx?.name}</span><span>{idx?.price}</span></div>
               )
             })}
             <div>Total: {total}</div>
@@ -59,9 +60,17 @@ const App=()=> {
         return (
             <div className="px-4 py-4 bg-gray-100 rounded-md border border-gray-100 flex flex-col">
                 <div>Part: <span className="font-light italic">{idx?.name}</span> </div>
-                <div className="flex mt-4 space-x-4"><span className="my-auto">${idx?.price} </span><button className="bg-green-200 rounded-md px-2 py-2 text-xs flex " onClick={()=>{ let nc = cart;
-                nc.push(sampleObjs[key])
-                setCart(nc)}}>Add To Cart <BsCartPlus className="my-auto" /> </button></div>
+                <div className="flex mt-4 space-x-4"><span className="my-auto">${idx?.price} </span><button className="bg-green-200 rounded-md px-2 py-2 text-xs flex " 
+                onClick={()=>{ 
+                  let nc = [];
+                  for(let i in cart){
+                    nc.push(cart[i])
+                  }
+                  nc.push(sampleObjs[key])
+                  
+                setCart(nc)}}
+                
+                >Add To Cart <BsCartPlus className="my-auto" /> </button></div>
             </div>
         )
       })}
